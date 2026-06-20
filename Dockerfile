@@ -4,9 +4,19 @@
 
 FROM node:20-slim
 
-# Install FFmpeg for metadata randomizer
+# Install FFmpeg and build tools for native modules (canvas/node-gyp)
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ffmpeg && \
+    apt-get install -y --no-install-recommends \
+    ffmpeg \
+    python3 \
+    make \
+    g++ \
+    build-essential \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
