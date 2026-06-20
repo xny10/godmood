@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TTGODMODE — Download TikTok videos without watermark and randomize metadata for unique content">
+  <title>TTGODMODE — TikTok Download + Meta Randomizer</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+  <!-- Decorative Background Blobs -->
+  <div class="bg-decor">
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header" id="appHeader">
+      <div class="logo">
+        <div class="logo-icon">⚡</div>
+        <h1>TT<span class="highlight">GODMODE</span></h1>
+      </div>
+      <p>Download TikTok videos without watermark and randomize metadata instantly</p>
+      <div class="header-pills">
+        <span class="header-pill">🎬 HD Quality</span>
+        <span class="header-pill">🚫 No Watermark</span>
+        <span class="header-pill">🎲 Meta Randomizer</span>
+        <span class="header-pill">📦 Bulk Download</span>
+      </div>
+    </header>
+
+    <!-- Main Card -->
+    <div class="card">
+      <!-- Input Section -->
+      <div class="input-section">
+        <label class="input-label">
+          <span class="icon">🔗</span>
+          Paste TikTok URLs (one per line)
+        </label>
+        <textarea
+          id="urlInput"
+          class="url-textarea"
+          placeholder="https://www.tiktok.com/@user/video/1234567890&#10;https://www.tiktok.com/@user/video/0987654321&#10;https://vt.tiktok.com/XXXXXXXX/&#10;&#10;Paste your TikTok video links here..."
+          spellcheck="false"
+        ></textarea>
+        <div class="url-counter">
+          <span><span class="count" id="urlCount">0</span> URLs detected</span>
+          <button class="btn btn-secondary btn-icon" id="clearBtn" title="Clear all">🗑️</button>
+        </div>
+      </div>
+
+      <!-- Metadata Toggle Section -->
+      <div class="meta-toggle-section" id="metaToggleSection">
+        <div class="meta-toggle-header">
+          <div class="meta-toggle-info">
+            <div class="meta-toggle-title">
+              <span class="meta-icon">🎲</span>
+              <span>Randomize Metadata</span>
+              <span class="meta-badge" id="metaBadge">OFF</span>
+            </div>
+            <p class="meta-toggle-desc">Re-encode video with unique metadata for each file</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="metaToggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Techniques Accordion -->
+        <div class="meta-techniques hidden" id="metaTechniques">
+          <div class="techniques-grid">
+            <div class="technique-item">
+              <span class="tech-icon">👤</span>
+              <span class="tech-name">Random Author</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">🏷️</span>
+              <span class="tech-name">Hidden Tags</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">📝</span>
+              <span class="tech-name">Title Spin</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">📄</span>
+              <span class="tech-name">Shuffle Description</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">⏰</span>
+              <span class="tech-name">Timestamp Shift</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">#️⃣</span>
+              <span class="tech-name">Hash Trick</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">🎬</span>
+              <span class="tech-name">Encoding Jitter</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">📡</span>
+              <span class="tech-name">Noise Injection</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">🔲</span>
+              <span class="tech-name">Pixel Shift</span>
+            </div>
+            <div class="technique-item">
+              <span class="tech-icon">🎵</span>
+              <span class="tech-name">Audio Pitch ±0.01</span>
+            </div>
+          </div>
+          <div class="meta-warning" id="ffmpegWarning" style="display:none;">
+            <span>⚠️</span> FFmpeg not detected. Please install FFmpeg to use this feature.
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn btn-primary" id="downloadBtn" disabled>
+          <span>⚡</span> GOD MODE Download
+        </button>
+      </div>
+
+      <!-- Summary Stats (hidden initially) -->
+      <div class="summary-bar hidden" id="summaryBar">
+        <div class="summary-stat total">
+          <div class="value" id="statTotal">0</div>
+          <div class="label">Total</div>
+        </div>
+        <div class="summary-stat complete">
+          <div class="value" id="statComplete">0</div>
+          <div class="label">Complete</div>
+        </div>
+        <div class="summary-stat downloading">
+          <div class="value" id="statDownloading">0</div>
+          <div class="label">Processing</div>
+        </div>
+        <div class="summary-stat failed">
+          <div class="value" id="statFailed">0</div>
+          <div class="label">Failed</div>
+        </div>
+      </div>
+
+      <!-- Download Queue -->
+      <div class="queue-section hidden" id="queueSection">
+        <div class="queue-header">
+          <h2>⚡ Processing Queue</h2>
+          <button class="btn btn-success hidden" id="downloadAllZipBtn">
+            <span>📦</span> Download All as ZIP
+          </button>
+        </div>
+        <div class="queue-list" id="queueList"></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>⚡ TTGODMODE — TikTok Download + Metadata Randomizer</p>
+    </footer>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
