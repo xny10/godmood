@@ -2,7 +2,7 @@
 # TTGODMODE — Dockerfile for Railway
 # ==========================================
 
-FROM node:18-slim
+FROM node:20-slim
 
 # Install FFmpeg for metadata randomizer
 RUN apt-get update && \
@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
 
 # Copy application files
 COPY . .
